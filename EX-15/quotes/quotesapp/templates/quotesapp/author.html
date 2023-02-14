@@ -1,0 +1,24 @@
+{% extends "quotesapp/base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2 class="title">
+        {{author.fullname}}
+    </h2>
+    <p class="author-data">
+        {{author.born_date}}
+    </p>
+    <p class="author-data">
+        {{author.born_location}}
+    </p>
+    <p class="author-data description">
+        {{author.description}}
+    </p>
+    {% if user.is_authenticated %}
+    <div class="nav-add">
+        <a href="{% url 'quotesapp:removeauthor' author.id %}" class="button-add">Remove</a>
+<!--        <a href="{% url 'quotesapp:editauthor' author.id %}" class="button-add">Edit</a>-->
+    </div>
+    {% endif%}
+</div>
+{% endblock %}

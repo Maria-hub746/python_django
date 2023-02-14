@@ -1,0 +1,54 @@
+{% extends "quotesapp/base.html" %}
+
+{% block content %}
+<div class="global">
+    <div class="main">
+        <h2>Tag: {{tag_name}}</h2>
+        <ul>
+            {% for quote in quotes_list %}
+            <li class="quote">
+                <a href="{% url 'quotesapp:detail' quote.id %}" class="link-quote">
+                    <p class="text">
+                        {{quote.quote}}
+                    </p>
+                </a>
+                <p class="subtext">
+                    Tags:
+                    {% for tag in quote.tags %}
+                    <a href="{% url 'quotesapp:tag' tag.id%}">{{tag.name}}</a>
+                    {% endfor %}
+                </p>
+                <p>
+                     by <a href="{% url 'quotesapp:author' quote.author_id %}"> {{quote.author}} </a>
+                </p>
+                {% if user.is_authenticated %}
+                <a href="{% url 'quotesapp:removequote' quote.id %}" class="button-delete">X</a>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+
+        <div class="list-pagination">
+            {% if previous > 0 %}
+            <a href="{% url 'quotesapp:tagpage' tag_id previous %}" class="button-add prev">Previous</a>
+            {% endif %}
+            {% if user.is_authenticated %}
+            <a href="{% url 'quotesapp:addquote' %}" class="button-add add-quote">Add quote</a>
+            {% endif %}
+            {% if next > 0 %}
+            <a href="{% url 'quotesapp:tagpage' tag_id next %}" class="button-add next">Next</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="side">
+        <h3 class="top-tag-title">Top ten tags</h3>
+        <ul>
+            {% for tag in top_tag %}
+            <li class="top-tag-item">
+                 <a href="{% url 'quotesapp:tag' tag.id %}" class="top-tag">{{tag.name}}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
